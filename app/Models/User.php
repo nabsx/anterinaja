@@ -1,15 +1,14 @@
 <?php
-// app/Models/User.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
@@ -17,8 +16,6 @@ class User extends Authenticatable
         'password',
         'role',
         'phone',
-        'address',
-        'is_active',
     ];
 
     protected $hidden = [
@@ -28,10 +25,9 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-        'is_active' => 'boolean',
     ];
 
+    // 🔗 Relasi
     public function driver()
     {
         return $this->hasOne(Driver::class);
@@ -42,22 +38,18 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function driverOrders()
-    {
-        return $this->hasMany(Order::class, 'driver_id');
-    }
-
-    public function isDriver()
-    {
-        return $this->role === 'driver';
-    }
-
-    public function isAdmin()
+    // 🔍 Role helper
+    public function isAdmin(): bool
     {
         return $this->role === 'admin';
     }
 
-    public function isUser()
+    public function isDriver(): bool
+    {
+        return $this->role === 'driver';
+    }
+
+    public function isUser(): bool
     {
         return $this->role === 'user';
     }

@@ -1,5 +1,5 @@
 <?php
-// app/Models/OrderLog.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,9 +10,7 @@ class OrderLog extends Model
     use HasFactory;
 
     protected $fillable = [
-        'order_id',
-        'status',
-        'notes',
+        'order_id', 'status', 'description'
     ];
 
     public function order()
